@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satoshi Countdown</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Satoshi Countdown</h1>
+        
+        <p class="message">
+            1 Satoshi - the smallest fraction of a Bitcoin - is now
+            worth more than <span id="conquered-count">0</span> of the world's fiat currencies.
+        </p>
+        
+        <p class="subtitle">
+            This clock counts down to the inevitable:<br>
+            the day 1 sat surpasses them all.
+        </p>
+
+        <div class="clock-container">
+            <div class="clock">
+                <div class="hand hour"></div>
+                <div class="hand minute"></div>
+                <div class="dot"></div>
+            </div>
+            <div id="particles"></div>
+            <p class="time-remaining"></p>
+        </div>
+
+        <div class="sat-values">
+            <div id="summary"></div>
+            <div class="current-values">
+                <div id="main-currencies"></div>
+            </div>
+            
+            <div class="last-gasp">
+                <div id="last-gasp-currencies"></div>
+            </div>
+            
+            <div class="conquered">
+                <div id="conquered-currencies"></div>
+            </div>
+        </div>
+    </div>
+    <div class="floating-nav">
+        <button class="nav-button" data-target="main-currencies">🤮</button>
+        <button class="nav-button" data-target="last-gasp-currencies">😰</button>
+        <button class="nav-button" data-target="conquered-currencies">☠️</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
