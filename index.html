@@ -12,6 +12,28 @@
 <body>
     <div class="container">
         <h1>Satoshi Countdown</h1>
+
+        <div class="clock-container">
+            <div class="clock" role="img" aria-label="Doomsday clock showing time until all fiat currencies are worth less than one satoshi">
+                <div class="tick"></div>
+                <div class="tick"></div>
+                <div class="tick"></div>
+                <div class="tick"></div>
+                <div class="tick"></div>
+                <div class="tick"></div>
+                <div class="tick"></div>
+                <div class="tick"></div>
+                <div class="tick"></div>
+                <div class="tick"></div>
+                <div class="tick"></div>
+                <div class="tick"></div>
+                <div class="hand hour"></div>
+                <div class="hand minute"></div>
+                <div class="dot"></div>
+            </div>
+            <div id="particles"></div>
+            <p class="time-remaining"></p>
+        </div>
         
         <p class="message">
             1 Satoshi - the smallest fraction of a Bitcoin - is now
@@ -22,16 +44,6 @@
             This clock counts down to the inevitable:<br>
             the day 1 sat surpasses them all.
         </p>
-
-        <div class="clock-container">
-            <div class="clock">
-                <div class="hand hour"></div>
-                <div class="hand minute"></div>
-                <div class="dot"></div>
-            </div>
-            <div id="particles"></div>
-            <p class="time-remaining"></p>
-        </div>
 
         <div class="sat-values">
             <div id="summary"></div>
@@ -53,7 +65,32 @@
         <button class="nav-button" data-target="last-gasp-currencies">😰</button>
         <button class="nav-button" data-target="conquered-currencies">☠️</button>
     </div>
+    <button class="toggle-view" 
+        data-section="main-currencies" 
+        aria-expanded="false"
+        aria-controls="main-currencies-list">
+        <span class="sr-only">Toggle Terminal Stage currencies visibility</span>
+        +
+    </button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script src="script.js"></script>
+    <script src="https://website-widgets.pages.dev/dist/sienna.min.js" defer></script>
+    <style>
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }
+    </style>
+    <template id="loading-template">
+        <div class="loading-spinner" role="status">
+            <span class="sr-only">Loading data...</span>
+        </div>
+    </template>
 </body>
 </html> 

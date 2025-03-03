@@ -97,8 +97,23 @@ async function fetchCurrencyNames() {
     }
 }
 
+function showLoading(element) {
+    element.classList.add('loading');
+    const spinner = document.querySelector('#loading-template').content.cloneNode(true);
+    element.appendChild(spinner);
+}
+
+function hideLoading(element) {
+    element.classList.remove('loading');
+    const spinner = element.querySelector('.loading-spinner');
+    if (spinner) spinner.remove();
+}
+
+// Update fetchCurrencies to show loading state
 async function fetchCurrencies() {
+    const mainSection = document.querySelector('.sat-values');
     try {
+        showLoading(mainSection);
         // Try to get cached data first
         const cachedData = getStoredData('currencyData');
         if (cachedData) {
@@ -187,6 +202,8 @@ async function fetchCurrencies() {
                 <div class="error">Error fetching currency data. Please try again later.</div>
             `;
         }
+    } finally {
+        hideLoading(mainSection);
     }
 }
 
@@ -212,7 +229,7 @@ function updateDisplay(sortedCurrencies) {
     summaryDiv.innerHTML = `
         <div class="summary-section">
             <h2>Fiat currencies dying</h2>
-            <p class="summary-subtitle">Watch in real-time as government money becomes worth less than the smallest unit of Bitcoin</p>
+            <p class="summary-subtitle" style="margin-bottom: 3rem;">Watch in real-time as government money becomes worth less than the smallest unit of Bitcoin</p>
             <div class="summary-item">
                 <span class="summary-emoji">🤮</span>
                 Terminal Stage (>${formatSatValue(100)} sats): ${terminalCount}/${totalCurrencies} fiat currencies
@@ -230,23 +247,35 @@ function updateDisplay(sortedCurrencies) {
 
     // Add headers
     mainCurrenciesDiv.innerHTML = `
-        <div class="section-header">
-            <h2>Terminal Stage 🤮</h2>
-            <p>These currencies still require more than 100 sats to buy 1 full unit</p>
+        <div class="section-container">
+            <button class="toggle-view" data-section="main-currencies">+</button>
+            <div class="section-header">
+                <h2>Terminal Stage 🤮</h2>
+                <p>These currencies still require more than 100 sats to buy 1 full unit</p>
+            </div>
+            <div class="currencies-list collapsed" id="main-currencies-list"></div>
         </div>
     `;
 
     lastGaspDiv.innerHTML = `
-        <div class="section-header">
-            <h2>Last Gasps 😰</h2>
-            <p>These currencies need between 100 and 1 sats to buy 1 full unit</p>
+        <div class="section-container">
+            <button class="toggle-view" data-section="last-gasp-currencies">+</button>
+            <div class="section-header">
+                <h2>Last Gasps 😰</h2>
+                <p>These currencies need between 100 and 1 sats to buy 1 full unit</p>
+            </div>
+            <div class="currencies-list collapsed" id="last-gasp-currencies-list"></div>
         </div>
     `;
 
     conqueredDiv.innerHTML = `
-        <div class="section-header">
-            <h2>Dead Currencies ☠️</h2>
-            <p>1 sat can buy 1 or more full units of these currencies</p>
+        <div class="section-container">
+            <button class="toggle-view" data-section="conquered-currencies">+</button>
+            <div class="section-header">
+                <h2>Dead Currencies ☠️</h2>
+                <p>1 sat can buy 1 or more full units of these currencies</p>
+            </div>
+            <div class="currencies-list collapsed" id="conquered-currencies-list"></div>
         </div>
     `;
 
@@ -254,11 +283,11 @@ function updateDisplay(sortedCurrencies) {
     sortedCurrencies.forEach(([currency, data]) => {
         let container;
         if (data.isDead) {
-            container = conqueredDiv;
+            container = document.getElementById('conquered-currencies-list');
         } else if (data.satsNeeded <= 100) {
-            container = lastGaspDiv;
+            container = document.getElementById('last-gasp-currencies-list');
         } else {
-            container = mainCurrenciesDiv;
+            container = document.getElementById('main-currencies-list');
         }
 
         const currencyItem = document.createElement('div');
@@ -286,6 +315,19 @@ function updateDisplay(sortedCurrencies) {
     
     document.querySelector('.time-remaining').textContent = 
         `${timeRemaining} to the death of fiat`;
+
+    // Add toggle functionality
+    document.querySelectorAll('.toggle-view').forEach(button => {
+        button.addEventListener('click', () => {
+            const sectionId = button.getAttribute('data-section');
+            const list = document.getElementById(`${sectionId}-list`);
+            const isExpanded = !list.classList.contains('collapsed');
+            
+            list.classList.toggle('collapsed');
+            button.textContent = isExpanded ? '+' : '−';
+            button.setAttribute('aria-expanded', !isExpanded);
+        });
+    });
 }
 
 function calculateTimeRemaining(remainingCurrencies) {
@@ -397,4 +439,9 @@ document.querySelectorAll('.nav-button').forEach(button => {
             });
         }
     });
+});
+
+// Make navigation buttons keyboard accessible
+document.querySelectorAll('.nav-button').forEach(button => {
+    button.setAttribute('aria-label', `Scroll to ${button.getAttribute('data-target').replace('-', ' ')}`);
 }); 

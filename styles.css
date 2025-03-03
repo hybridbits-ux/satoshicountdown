@@ -45,57 +45,102 @@ h1 {
     width: 300px;
     height: 300px;
     margin: 3rem auto;
-    margin-bottom: 12rem;
+    margin-bottom: 10rem;
 }
 
 .clock {
     width: 100%;
     height: 100%;
-    border: 4px solid var(--primary-color);
     border-radius: 50%;
     position: relative;
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
     box-shadow: 
-        inset 0 0 0 8px rgba(255, 255, 255, 0.05),
-        0 0 0 2px rgba(255, 255, 255, 0.1);
+        /* Outer rim highlights */
+        inset -8px -8px 12px rgba(255, 255, 255, 0.05),
+        inset 8px 8px 12px rgba(0, 0, 0, 0.3),
+        /* Outer rim shadow */
+        0 0 0 12px rgba(20, 20, 20, 0.8),
+        /* Metal effect */
+        0 0 0 14px rgba(50, 50, 50, 0.5),
+        /* Outer glow */
+        0 0 20px rgba(0, 0, 0, 0.5);
 }
 
+/* Tick marks with metallic effect */
+.clock .tick {
+    width: 3px;
+    height: 15px;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0.8)
+    );
+    position: absolute;
+    left: 50%;
+    transform-origin: 50% 150px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Create 12 tick marks */
+.clock .tick:nth-child(1) { transform: rotate(0deg) translateX(-50%); }
+.clock .tick:nth-child(2) { transform: rotate(30deg) translateX(-50%); }
+.clock .tick:nth-child(3) { transform: rotate(60deg) translateX(-50%); }
+.clock .tick:nth-child(4) { transform: rotate(90deg) translateX(-50%); }
+.clock .tick:nth-child(5) { transform: rotate(120deg) translateX(-50%); }
+.clock .tick:nth-child(6) { transform: rotate(150deg) translateX(-50%); }
+.clock .tick:nth-child(7) { transform: rotate(180deg) translateX(-50%); }
+.clock .tick:nth-child(8) { transform: rotate(210deg) translateX(-50%); }
+.clock .tick:nth-child(9) { transform: rotate(240deg) translateX(-50%); }
+.clock .tick:nth-child(10) { transform: rotate(270deg) translateX(-50%); }
+.clock .tick:nth-child(11) { transform: rotate(300deg) translateX(-50%); }
+.clock .tick:nth-child(12) { transform: rotate(330deg) translateX(-50%); }
+
+/* Clock hands with metallic effect */
 .hand {
     position: absolute;
     bottom: 50%;
-    left: 49%;
+    left: 50%;
     transform-origin: bottom;
-    background-color: var(--primary-color);
-    border-radius: 2px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.2),
+        var(--primary-color) 20%,
+        var(--primary-color) 80%,
+        rgba(255, 255, 255, 0.2)
+    );
+    border-radius: 4px;
+    box-shadow: 
+        0 0 5px rgba(0, 0, 0, 0.3),
+        0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .hour {
-    width: 6px;
-    height: 25%;
-    background-color: var(--primary-color);
-    transform: translateX(-50%);
+    width: 8px;
+    height: 28%;
+    margin-left: -4px;
 }
 
 .minute {
-    width: 3px;
+    width: 4px;
     height: 45%;
-    background-color: var(--primary-color);
-    opacity: 0.7;
-    transform: translateX(-50%);
+    margin-left: -2px;
+    opacity: 0.9;
 }
 
+/* Center dot with metallic effect */
 .dot {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 12px;
-    height: 12px;
-    background-color: var(--accent-color);
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
+    background: linear-gradient(145deg, #ff4b1a, #e63400);
     transform: translate(-50%, -50%);
     box-shadow: 
-        0 0 0 4px var(--background-color),
-        0 0 0 6px rgba(255, 59, 0, 0.3);
+        inset -2px -2px 4px rgba(0, 0, 0, 0.3),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.2),
+        0 0 10px rgba(255, 59, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .sat-values {
@@ -164,7 +209,7 @@ h2 {
 }
 
 .conquered .market-cap {
-    opacity: 0.3;
+    opacity: 0.5;
 }
 
 #particles {
@@ -176,26 +221,9 @@ h2 {
     z-index: -1;
 }
 
-/* Glow effect */
+/* Remove the glow animation for a more realistic look */
 .clock::after {
-    content: '';
-    position: absolute;
-    top: -20px;
-    left: -20px;
-    right: -20px;
-    bottom: -20px;
-    border-radius: 50%;
-    background: var(--glow-color);
-    z-index: -1;
-    filter: blur(30px);
-    animation: pulse 4s infinite;
-    opacity: 0.3;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.05); opacity: 0.8; }
-    100% { transform: scale(1); opacity: 0.5; }
+    display: none;
 }
 
 /* Add these styles */
@@ -313,4 +341,107 @@ h2 {
     .floating-nav {
         display: none;
     }
+}
+
+/* Add these styles */
+.section-container {
+    position: relative;
+    padding-right: 0;
+}
+
+.toggle-view {
+    position: sticky; /* Change to sticky for desktop too */
+    top: 20px;
+    right: calc(50% - 460px); /* Position relative to center of page */
+    margin-left: calc(100% + 20px); /* Push button outside section */
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--primary-color);
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    z-index: 10;
+    float: right; /* Help with sticky positioning */
+}
+
+/* Adjust for mobile screens */
+@media (max-width: 768px) {
+    .toggle-view {
+        right: 10px; /* Reset the right position for mobile */
+        margin-left: 0; /* Reset margin for mobile */
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 6px;
+        top: 10px;
+    }
+}
+
+.collapsed {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(transparent, var(--background-color));
+}
+
+/* Add loading animation styles */
+.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Improve focus states for accessibility */
+.toggle-view:focus-visible,
+.nav-button:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Ensure sufficient color contrast */
+.currency-name {
+    opacity: 0.9; /* Increased from 0.8 */
+}
+
+.summary-item {
+    opacity: 0.9; /* Increased from 0.8 */
+}
+
+/* Add transition for loading state */
+.currency-item {
+    transition: opacity 0.3s ease;
 }
